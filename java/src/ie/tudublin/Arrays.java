@@ -21,7 +21,7 @@ public class Arrays extends PApplet
 
 	public void settings()
 	{
-		size(700, 700);
+		size(900, 900);
 
 		String[] m1 = months;
 		
@@ -80,6 +80,8 @@ public class Arrays extends PApplet
 	public void draw()
 	{	
 		background(0);
+		textAlign(CENTER, CENTER);
+		
 
 		switch (mode) {
 			case 1:
@@ -87,21 +89,46 @@ public class Arrays extends PApplet
 				float shift = 100;
 				float graphWidth = width - shift;
 				float graphHeight = height - shift;
-				float w = graphWidth / (float)months.length;
+				float tickLength = 5;
+				float tickY;
+				float x;
+				float textY;
+				float w = (graphWidth - shift) / (float)months.length;
+				float cgap = 360 / months.length;
+				float c;
 
+				fill(360);
+				textSize(25 / (shift / 100));
+				text("Rainfall Bar Chart", width / 2, height - (graphHeight + shift / 2));
 				stroke(360);
 				line(shift, graphHeight, shift, height - graphHeight);
 				line(shift, graphHeight, graphWidth, graphHeight);
+
+				for(int i = 0 ; i < 11 ; i++)
+				{
+					tickY = map(i, 0, 10, shift, graphHeight);
+					line(shift, tickY, shift - tickLength, tickY);
+					textY = map(i, 0, 10, graphHeight, shift);
+					textSize(20);
+					text(50 * (i), shift / 2, textY);
+				}
+
 				for(int i = 0 ; i < months.length ; i++)
 				{
-					
+					x = map(i, 0, months.length, shift, graphWidth);
+					c = cgap * (float) i;
+					fill(c, 360, 360);
+					rect(x, graphHeight, w, -rainfall[i]);
+					fill(360);
+					textSize(15);
+					text(months[i], x + w / 2, graphHeight + 25);
 				}
 
 				break;
 			}
+			
 			default:
-				//float x = map(i, 0, months.length, 0, width);
-				//	rect(x, height, w, -rainfall[i]);
+				
 				break;
 		}
 		
