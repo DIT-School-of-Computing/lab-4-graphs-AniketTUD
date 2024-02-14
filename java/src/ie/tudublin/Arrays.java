@@ -15,13 +15,13 @@ public class Arrays extends PApplet
 	void randomize()
 	{
 		for (int i = 0; i < rainfall.length; i++) {
-			rainfall[i] = random(500);
+			rainfall[i] = floor(random(500));
 		}
 	}
 
 	public void settings()
 	{
-		size(900, 900);
+		size(700, 700);
 
 		String[] m1 = months;
 		
@@ -68,6 +68,14 @@ public class Arrays extends PApplet
 		colorMode(HSB, 360);
 		background(0);
 		randomize();
+
+		for(int i = 0; i < months.length; i ++)
+		{
+			println("Month: " + months[i] + "\t" + rainfall[i]);
+		}
+		for (String s : months) {
+			println(s);
+		}
 	}
 
 	public void keyPressed() {
@@ -126,7 +134,48 @@ public class Arrays extends PApplet
 
 				break;
 			}
-			
+			case 2:
+			{
+				float shift = 100;
+				float graphWidth = width - shift;
+				float graphHeight = height - shift;
+				float tickLength = 5;
+				float tickY;
+				float x;
+				float x2;
+				float textY;
+				float w = (graphWidth - shift) / (float)months.length;
+
+				fill(360);
+				textSize(25 / (shift / 100));
+				text("Rainfall Trend Chart", width / 2, height - (graphHeight + shift / 2));
+				stroke(360);
+				line(shift, graphHeight, shift, height - graphHeight);
+				line(shift, graphHeight, graphWidth, graphHeight);
+
+				for(int i = 0 ; i < 11 ; i++)
+				{
+					tickY = map(i, 0, 10, shift, graphHeight);
+					line(shift, tickY, shift - tickLength, tickY);
+					textY = map(i, 0, 10, graphHeight, shift);
+					textSize(20);
+					text(50 * (i), shift / 2, textY);
+				}
+
+				for(int i = 1 ; i < months.length ; i++)
+				{
+					x = map(i - 1, 0, months.length, shift, graphWidth);
+					x2 = map(i, 0, months.length, shift, graphWidth);
+					line(x + w / 2, graphHeight - rainfall[i - 1], x2 + w / 2, graphHeight - rainfall[i]);
+					fill(360);
+					textSize(15);
+					text(months[i - 1], x + w / 2, graphHeight + 25);
+					if(i == 11)
+						text(months[i], x2 + w / 2, graphHeight + 25);
+				}
+
+				break;
+			}
 			default:
 				
 				break;
