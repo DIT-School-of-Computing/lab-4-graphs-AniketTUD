@@ -10,14 +10,7 @@ public class Arrays extends PApplet
 
 	float[] rainfall = {200, 260, 300, 150, 100, 50, 10, 40, 67, 160, 400, 420};
 
-	public float map1(float a, float b, float c, float d, float e)
-	{
-		float r1 = c -b;
-		float r2 = e - d;
-
-		float howFar = a - b;
-		return d + (howFar / r1) * r2;
-	}
+	int mode;
 
 	void randomize()
 	{
@@ -28,11 +21,10 @@ public class Arrays extends PApplet
 
 	public void settings()
 	{
-		size(500, 500);
+		size(700, 700);
 
 		String[] m1 = months;
-		months[0] = "XXX";
-		print(m1[0]);
+		
 		for(int i = 0; i < months.length; i ++)
 		{
 			println("Month: " + months[i] + "\t" + rainfall[i]);
@@ -70,38 +62,48 @@ public class Arrays extends PApplet
 		}
 
 		float avg = tot / (float) rainfall.length;
-
-		// a b-c d-e;
-		println(map1(5, 0, 10, 0, 100));
-		// 50
-
-		println(map1(25, 20, 30, 200, 300));
-		// 250
-
-		println(map1(26, 25, 35, 0, 100));
-		// 10 
-
-
 	}
 
 	public void setup() {
-		colorMode(HSB);
+		colorMode(HSB, 360);
 		background(0);
 		randomize();
-		
-		
 	}
 
+	public void keyPressed() {
+		if (key >= '0' && key <= '3') {
+			mode = key - '0';
+		}
+		println(mode);
+	}
 	
 	public void draw()
 	{	
-
 		background(0);
-		float w = width / (float)months.length;
-		for(int i = 0 ; i < months.length ;  i ++)
-		{
-			float x = map1(i, 0, months.length, 0, width);
-			rect(x, height, w, -rainfall[i]);
+
+		switch (mode) {
+			case 1:
+			{
+				float shift = 100;
+				float graphWidth = width - shift;
+				float graphHeight = height - shift;
+				float w = graphWidth / (float)months.length;
+
+				stroke(360);
+				line(shift, graphHeight, shift, height - graphHeight);
+				line(shift, graphHeight, graphWidth, graphHeight);
+				for(int i = 0 ; i < months.length ; i++)
+				{
+					
+				}
+
+				break;
+			}
+			default:
+				//float x = map(i, 0, months.length, 0, width);
+				//	rect(x, height, w, -rainfall[i]);
+				break;
 		}
+		
 	}
 }
