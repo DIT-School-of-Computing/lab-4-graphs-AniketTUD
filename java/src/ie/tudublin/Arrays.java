@@ -166,18 +166,18 @@ public class Arrays extends PApplet
 				text("Rainfall Pie Chart", width / 2, shift / 2);
 				noStroke();
 
-				for(int i = 0 ; i < 12 ; i++)
+				for(int i = 0 ; i < months.length ; i++)
 				{
 					angle = map(rainfall[i], 0, sum, 0, TWO_PI);
-					x = sin(start);
-					y = cos(start);
+					x = cos(start + angle / 2);
+					y = sin(start + angle / 2);
 
 					c = cgap * (float) i;
-					fill(c, 360, 360);
+					fill(c, 300, 360);
 					arc(width / 2, height / 2, graphDiameter, graphDiameter, start, angleShift + angle, PIE);
 
-					//fill(360);
-					//text(months[i], (width / 2) + x * 280, (height / 2) + y * 280);
+					fill(360);
+					text(months[i], (width / 2) + ((graphRadius + 40) * x), (height / 2) + ((graphRadius + 40) * y));
 					
 					angleShift += angle;
 					
