@@ -19,49 +19,20 @@ public class Arrays extends PApplet
 		}
 	}
 
-	public void settings()
+	float findSum()
 	{
-		size(700, 700);
-
-		String[] m1 = months;
-		
-		for(int i = 0; i < months.length; i ++)
-		{
-			println("Month: " + months[i] + "\t" + rainfall[i]);
-		}
-		for (String s : m1) {
-			println(s);
-		}
-
-		int minIndex = 0;
-		for(int i= 0 ; i < rainfall.length ; i ++)
-		{
-			if (rainfall[i] < rainfall[minIndex])
-			{
-				minIndex = i;
-			}
-		}
-		
-		int maxIndex = 0;
-		for(int i= 0 ; i < rainfall.length ; i ++)
-		{
-			if (rainfall[i] > rainfall[maxIndex])
-			{
-				maxIndex = i;
-			}
-		}
-
-		println("The month with the minimum rainfall was " + months[minIndex] + " with " + rainfall[minIndex] + "rain");
-		println("The month with the max rainfall was " + months[maxIndex] + " with " + rainfall[maxIndex] + "rain");
-		
-		
 		float tot = 0;
 		for(float f:rainfall)
 		{
 			tot += f;
 		}
 
-		float avg = tot / (float) rainfall.length;
+		return tot;
+	}
+
+	public void settings()
+	{
+		size(700, 700);
 	}
 
 	public void setup() {
@@ -172,6 +143,45 @@ public class Arrays extends PApplet
 					text(months[i - 1], x + w / 2, graphHeight + 25);
 					if(i == 11)
 						text(months[i], x2 + w / 2, graphHeight + 25);
+				}
+
+				break;
+			}
+			case 3:
+			{
+				float shift = 100;
+				float graphDiameter = 400;
+				float graphRadius = graphDiameter / 2;
+				float start = 0;
+				float angle;
+				float angleShift = 0;
+				float sum = findSum();
+				float x;
+				float y;
+				float cgap = 360 / months.length;
+				float c;
+
+				fill(360);
+				textSize(25 / (shift / 100));
+				text("Rainfall Pie Chart", width / 2, shift / 2);
+				noStroke();
+
+				for(int i = 0 ; i < 12 ; i++)
+				{
+					angle = map(rainfall[i], 0, sum, 0, TWO_PI);
+					x = sin(start);
+					y = cos(start);
+
+					c = cgap * (float) i;
+					fill(c, 360, 360);
+					arc(width / 2, height / 2, graphDiameter, graphDiameter, start, angleShift + angle, PIE);
+
+					//fill(360);
+					//text(months[i], (width / 2) + x * 280, (height / 2) + y * 280);
+					
+					angleShift += angle;
+					
+					start = angleShift;
 				}
 
 				break;
